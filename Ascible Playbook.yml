@@ -1,0 +1,32 @@
+---
+- name: Create Dockerfile and deploy container
+  hosts: your_target_host
+  become: yes
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      # You can adjust this task based on your package manager (yum, dnf, etc.)
+
+    - name: Create Dockerfile
+      copy:
+        content: |
+          FROM ubuntu:20.04
+          RUN apt-get update && apt-get install -y nginx
+          CMD ["nginx", "-g", "daemon off;"]
+        dest: /path/to/your/Dockerfile
+      # Customize the Dockerfile content as needed
+
+    - name: Build Docker image
+      command:
+        cmd: docker build -t my_nginx_image /path/to/your
+      # Replace 'my_nginx_image' with your desired image name
+
+    - name: Run Docker container
+      docker_container:
+        name: my_nginx_container
+        image: my_nginx_image
+        ports:
+          - "80:80"
+      # Adjust container name, image, and port mapping as required
