@@ -7,7 +7,7 @@
       apt:
         name: docker.io
         state: present
-      # You can adjust this task based on your package manager (yum, dnf, etc.)
+      
 
     - name: Create Dockerfile
       copy:
